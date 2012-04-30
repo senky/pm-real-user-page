@@ -1,42 +1,104 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<?xml-stylesheet type="text/xsl" href="./modx.prosilver.en.xsl" ?>
-<!--
-	NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.
--->
-<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
-<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.2.xsd">
-<header>
-	<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25" />
-	<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
-	<title lang="en">Real user page</title>
-	<description lang="en">This mod will change default name and URL of Forum location on viewonline.php into real page name for admins.</description>
-	<author-group>
-		<author>
-			<realname>Jakub Senko</realname>
-			<username>Senky</username>
-			<homepage>http://www.senky.yw.sk</homepage>
-			<email>jakubsenko@gmail.com</email>
-		</author>
-	</author-group>
-	<mod-version>1.0.0</mod-version>
-	<installation>
-		<level>easy</level>
-		<time>60</time>
-		<target-version>3.0.5</target-version>
-	</installation>
-</header>
-<action-group>
-	<open src="viewonline.php">
-		<edit>
-			<find><![CDATA[default:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.-->
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD.\nAlthough MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD.\nNo support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.3.xsd">
+	<header>
+		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25"/>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		<title lang="en"><![CDATA[Real user page]]></title>
+		<description lang="en"><![CDATA[This mod will change default name and URL of 'Forum location' on viewonline.php into real page for admins and write exactly position of user in UCP.]]></description>
+		<author-notes lang="en"><![CDATA[Great mod if you are mod author and you create new files in phpBB, or you just have other pages and you want to see where users are.]]></author-notes>
+
+		<author-group>
+			<author>
+				<realname><![CDATA[Jakub Senko]]></realname>
+				<username><![CDATA[Senky]]></username>
+				<homepage><![CDATA[http://www.online-hry-help.sk]]></homepage>
+				<email><![CDATA[jakubsenko@gmail.com]]></email>
+			</author>
+		</author-group>
+		<mod-version>1.1.0</mod-version>
+
+		<installation>
+			<level>easy</level>
+			<time>60</time>
+			<target-version>3.0.6</target-version>
+		</installation>
+	</header>
+	<action-group>
+
+		<open src="viewonline.php">
+			<edit>
+				<find><![CDATA[			$url_params = array(
+				'mode=register'		=> 'VIEWING_REGISTER',
+				'i=pm&mode=compose'	=> 'POSTING_PRIVATE_MESSAGE',
+				'i=pm&'				=> 'VIEWING_PRIVATE_MESSAGES',
+				'i=profile&'		=> 'CHANGING_PROFILE',
+				'i=prefs&'			=> 'CHANGING_PREFERENCES',
+			);]]></find>
+				<action type="replace-with"><![CDATA[			$url_params = array(
+				'mode=register'		=> 'VIEWING_REGISTER',
+				'i=main&mode=subscribed'	=> 'VO_VIEWING_SUBSCRIBED',
+				'i=main&mode=bookmarks'	=> 'VO_VIEWING_BOOKMARKS',
+				'i=main&mode=drafts'	=> 'VO_VIEWING_DRAFTS',
+				'i=attachments&mode=attachments'	=> 'VO_VIEWING_ATTACHMENTS',
+				'i=profile&mode=profile_info'	=> 'VO_EDITING_PROFILE',
+				'i=profile&mode=signature'	=> 'VO_EDITING_SIGNATURE',
+				'i=profile&mode=avatar'	=> 'VO_EDITING_AVATAR',
+				'i=profile&mode=reg_details'	=> 'VO_EDITING_AS',
+				'i=prefs&mode=personal'	=> 'VO_EDITING_GS',
+				'i=prefs&mode=post'	=> 'VO_EDITING_PD',
+				'i=prefs&mode=view'	=> 'VO_EDITING_DO',
+				'i=pm&mode=compose'	=> 'POSTING_PRIVATE_MESSAGE',
+				'i=pm&mode=drafts'	=> 'VO_MANAGE_PM_DRAFTS',
+				'i=pm&folder=inbox'	=> 'VO_PM_INBOX',
+				'i=pm&folder=outbox'	=> 'VO_PM_OUTBOX',
+				'i=pm&folder=sentbox'	=> 'VO_PM_SENTBOX',
+				'i=pm&mode=options'	=> 'VO_PM_OPTIONS',
+				'i=groups&mode=membership'	=> 'VO_EDITING_MEMBERSHIP',
+				'i=groups&mode=manage'	=> 'VO_EDITING_GROUP',
+				'i=zebra&mode=friends'	=> 'VO_EDITING_FRIENDS',
+				'i=zebra&mode=foes'	=> 'VO_EDITING_FOES',
+				'i=pm&'				=> 'VIEWING_PRIVATE_MESSAGES',
+				'i=profile&'		=> 'CHANGING_PROFILE',
+				'i=prefs&'			=> 'CHANGING_PREFERENCES',
+			);]]></action>
+				<find><![CDATA[      default:
          $location = $user->lang['INDEX'];
          $location_url = append_sid("{$phpbb_root_path}index.$phpEx");
       break;]]></find>
-			<action type="replace-with"><![CDATA[default:
+				<action type="replace-with"><![CDATA[      default:
          $location = ($auth->acl_get('a_')) ? $row['session_page'] : $user->lang['INDEX'];
          $location_url = ($auth->acl_get('a_')) ? append_sid("{$phpbb_root_path}".$row['session_page']) : append_sid("{$phpbb_root_path}index.$phpEx");
       break;]]></action>
-		</edit>
-	</open>
-</action-group>
+			</edit>
+		</open>
+		<open src="language/en/common.php">
+
+			<edit>
+				<find><![CDATA[	'VISIT_WEBSITE'				=> 'Visit website',]]></find>
+				<action type="after-add"><![CDATA[	'VO_VIEWING_SUBSCRIBED'				=> 'Viewing subscribtions',
+	'VO_VIEWING_BOOKMARKS'				=> 'Viewing bookmarks',
+	'VO_VIEWING_DRAFTS'				=> 'Viewing drafts',
+	'VO_VIEWING_ATTACHMENTS'				=> 'Viewing attachments',
+	'VO_EDITING_PROFILE'				=> 'Editing profile',
+	'VO_EDITING_SIGNATURE'				=> 'Editing signature',
+	'VO_EDITING_AVATAR'				=> 'Editing avatar',
+	'VO_EDITING_AS'				=> 'Editing account settings',
+	'VO_EDITING_GS'				=> 'Editing global settings',
+	'VO_EDITING_PD'				=> 'Editing posting defaults',
+	'VO_EDITING_DO'				=> 'Editing display options',
+	'VO_MANAGE_PM_DRAFTS'				=> 'Manage private messages drafts',
+	'VO_PM_INBOX'				=> 'Viewing PM inbox',
+	'VO_PM_OUTBOX'				=> 'Viewing PM outbox',
+	'VO_PM_SENTBOX'				=> 'Viewing PM sentbox',
+	'VO_PM_OPTIONS'				=> 'Editing PM options',
+	'VO_EDITING_MEMBERSHIP'				=> 'Editing memberships',
+	'VO_EDITING_GROUP'				=> 'Editing group',
+	'VO_EDITING_FRIENDS'				=> 'Editing friends',
+	'VO_EDITING_FOES'				=> 'Editing foes',]]></action>
+			</edit>
+		</open>
+	</action-group>
 </mod>
